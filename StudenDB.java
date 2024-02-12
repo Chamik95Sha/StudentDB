@@ -101,7 +101,9 @@ void main() throws IOException, InterruptedException {
                         names = names.replace(names.substring(names.indexOf(id), names.indexOf("#" + id) + 5), "");
                         OOPMarks = OOPMarks.replace(OOPMarks.substring(OOPMarks.indexOf(id), OOPMarks.indexOf("#" + id) + 5), "");
                         PFMarks = PFMarks.replace(PFMarks.substring(PFMarks.indexOf(id), PFMarks.indexOf("#" + id) + 5), "");
-                        nOfStudents = nOfStudents - 1;
+                        stTotal = stTotal.replace(stTotal.substring(stTotal.indexOf(id), stTotal.indexOf("#" + id) + 5), "");
+                        System.out.println(names);
+                        // nOfStudents = nOfStudents - 1;
                         System.out.println("Deleted sucessfully!\n Do you want to delete more name?(y/n)");
                         String r = SCANNER.next();
                         if (r.equals("y")) ;
@@ -129,9 +131,12 @@ void main() throws IOException, InterruptedException {
                     int nameWidth = 4;
                     if (nOfStudents != 0) {
                         for (int i = 1; i <= nOfStudents; i++) {
+
                             String id = String.format("S%03d", i);
-                            String name = names.substring(names.indexOf(id) + 4, names.indexOf("#" + id));
-                            if (nameWidth < name.length() + 2) nameWidth = name.length() + 2;
+                            if (IDs.contains(id)) {
+                                String name = names.substring(names.indexOf(id) + 4, names.indexOf("#" + id));
+                                if (nameWidth < name.length() + 2) nameWidth = name.length() + 2;
+                            }
                         }
 
                         final String ROW = STR."|%-\{6}s|%-\{nameWidth}s|%-\{7}s|%-\{5}d|%-\{8}s|\n";
@@ -145,16 +150,18 @@ void main() throws IOException, InterruptedException {
                         int z = 0;
                         while (z++ < nOfStudents) {
                             String ID_d = String.format("S%03d", z);
-                            String Name_d = names.substring(names.indexOf(ID_d) + 4, names.indexOf("#" + ID_d));
-                            String Total_d = stTotal.substring(stTotal.indexOf(ID_d) + 4, stTotal.indexOf("#" + ID_d));
-                            int avg = (Integer.parseInt(Total_d)) / 2;
-                            String status = avg > 75 ? "A" : avg > 65 ? "B" : avg > 55 ? "C" : avg > 40 ? "S" : "F";
-                            System.out.printf(ROW, ID_d, Name_d, Total_d, avg, status);
+                            if (IDs.contains(ID_d)) {
+                                String Name_d = names.substring(names.indexOf(ID_d) + 4, names.indexOf("#" + ID_d));
+                                String Total_d = stTotal.substring(stTotal.indexOf(ID_d) + 4, stTotal.indexOf("#" + ID_d));
+                                int avg = (Integer.parseInt(Total_d)) / 2;
+                                String status = avg > 75 ? "A" : avg > 65 ? "B" : avg > 55 ? "C" : avg > 40 ? "S" : "F";
+                                System.out.printf(ROW, ID_d, Name_d, Total_d, avg, status);
 
+                            }
                         }
                         System.out.println(line);
-                        System.out.println("Student With Lowest Mark:"+lowestID );
-                        System.out.println("Student With Highest Mark:"+highestID );
+                        System.out.println("Student With Lowest Mark:" + lowestID);
+                        System.out.println("Student With Highest Mark:" + highestID);
                         continue main;
                     } else {
                         System.out.println("No Students to display!");
